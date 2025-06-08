@@ -1,0 +1,49 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container mt-5">
+  <h1 class="mb-4">Examination History</h1>
+
+  <!-- Examination Table -->
+  <% if (examination.length === 0) { %>
+    <p>No examinations submitted yet.</p>
+  <% } else { %>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Exam Type</th>
+          <th>Exam Date</th>
+          <th>Score</th>
+          <th>Difficulty</th>
+          <th>Difficulty Category</th>
+          <th>Submitted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% examination.forEach(exam => { %>
+          <tr>
+            <td><%= exam.examName %></td>
+            <td><%= exam.examType.charAt(0).toUpperCase() + exam.examType.slice(1) %></td>
+            <td><%= exam.examDate.toLocaleDateString() %></td>
+            <td><%= exam.score %>/100</td>
+            <td><%= exam.difficulty %>/100</td>
+            <td>
+              <span class="badge <%= exam.difficultyCategory === 'Easy' ? 'bg-success' : exam.difficultyCategory === 'Moderate' ? 'bg-warning' : 'bg-danger' %>">
+                <%= exam.difficultyCategory %>
+              </span>
+            </td>
+            <td><%= exam.createdAt.toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <!-- Chart Section -->
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h3>Scores Over Time</h3>
+      <canvas id="scoreChart" height="200" data-chart-data='<%- JSON.stringify(scoreChartData) %>'></canvas>
+    </div>
+  </div>
+</main>

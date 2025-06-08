@@ -1,0 +1,57 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container mt-5">
+  <h1 class="mb-4">User Management</h1>
+
+  <% if (users.length === 0) { %>
+    <p>No users available.</p>
+  <% } else { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %></td>
+            <td>
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-<%= user._id %>">Delete</button>
+            </td>
+          </tr>
+
+          <!-- Delete Confirmation Modal -->
+          <div class="modal fade" id="deleteModal-<%= user._id %>" tabindex="-1" aria-labelledby="deleteModalLabel-<%= user._id %>" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel-<%= user._id %>">Confirm Deletion</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete the user "<%= user.username %>"?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <form action="/admin/users/delete/<%= user._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <div class="mt-4">
+    <a href="/admin/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</main>

@@ -1,0 +1,32 @@
+<% layout("/layouts/boilerplate") %>
+<h1 class="mt-4 mb-4"><%= __('search_results') %></h1>
+        <% if (query) { %>
+          <p class="mb-4"><%= __('search_query') %>: <strong><%= query %></strong></p>
+          <% if (results && results.length > 0) { %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th><%= __('type') %></th>
+                  <th><%= __('name') %></th>
+                  <th><%= __('email') %></th>
+                  <th><%= __('description') %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% results.forEach(result => { %>
+                  <tr>
+                    <td><%= result.type %></td>
+                    <td><%= result.username %></td>
+                    <td><%= result.email || '-' %></td>
+                    <td><%= result.description || '-' %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <p><%= __('no_results') %></p>
+          <% } %>
+        <% } else { %>
+          <p><%= __('enter_search_query') %></p>
+        <% } %>
+

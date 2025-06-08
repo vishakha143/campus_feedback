@@ -1,0 +1,64 @@
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <img src="/images/campusconnect-logo.png" alt="CampusConnect Logo" width="40" height="40" class="d-inline-block align-text-top">
+        CampusConnect
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="navbar-search me-auto">
+          <form action="/search" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="<%= __('search') %>..." aria-label="Search">
+            <button type="submit" class="search-btn">
+              <span class="icon">🔍</span>
+            </button>
+          </form>
+        </div>
+        <ul class="navbar-nav ms-auto">
+          <% if (user) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= user.role === 'teacher' ? '/teacher/dashboard' : user.role === 'student' ? '/student/dashboard' : '/admin/dashboard' %>">
+                <%= __("dashboard") %>
+              </a>
+            </li>
+          <% } %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-adjust me-2"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="themeDropdown">
+              <li><a class="dropdown-item" href="/set-theme?theme=light"><%= __("light") %></a></li>
+              <li><a class="dropdown-item" href="/set-theme?theme=dark"><%= __("dark") %></a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-globe me-2"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+              <li><a class="dropdown-item" href="/set-lang?lang=en"><%= __("english") %></a></li>
+              <li><a class="dropdown-item" href="/set-lang?lang=hi"><%= __("hindi") %></a></li>
+              <li><a class="dropdown-item" href="/set-lang?lang=ta"><%= __("tamil") %></a></li>
+            </ul>
+          </li>
+          <% if (user) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/logout"><%= __("logout") %></a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/login"><%= __("login") %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/register"><%= __("register") %></a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ 

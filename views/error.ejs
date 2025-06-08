@@ -1,0 +1,14 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-6 mb-2">
+      <h2 class="text-danger mb-4"><i class="fas fa-exclamation-triangle me-2"></i>Error</h2>
+      <p class="lead"><%= message || 'An unexpected error occurred.' %></p>
+      <% if (typeof error !== 'undefined' && process.env.NODE_ENV === 'development') { %>
+        <pre class="text-muted mt-3"><%= error.stack || 'No stack trace available.' %></pre>
+      <% } %>
+      <a href="/auth/login" class="btn btn-primary mt-3 mb-3"><i class="fas fa-arrow-left me-2"></i>Back to Login</a>
+    </div>
+  </div>
+</div>

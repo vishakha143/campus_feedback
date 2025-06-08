@@ -1,0 +1,87 @@
+<% layout('layouts/boilerplate') %>
+
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+      <div class="card shadow-lg" style="border-radius: 15px;">
+        <div class="card-body p-5">
+  
+          <h2 class="text-center mb-4"><%- __('Verify Your Email') %></h2>
+          <p class="text-center text-muted mb-4"><%- __('Enter the 6-digit OTP sent to') %> <strong><%= email %></strong></p>
+
+          <form action="/auth/verify-otp" method="POST" id="otpForm">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="d-flex justify-content-center mb-4">
+              <div class="otp-inputs d-flex">
+                <input type="text" class="form-control otp-digit" maxlength="1" required>
+                <input type="text" class="form-control otp-digit" maxlength="1" required>
+                <input type="text" class="form-control otp-digit" maxlength="1" required>
+                <input type="text" class="form-control otp-digit" maxlength="1" required>
+                <input type="text" class="form-control otp-digit" maxlength="1" required>
+                <input type="text" class="form-control otp-digit" maxlength="1" required>
+              </div>
+              <input type="hidden" name="otp" id="otpValue">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-animated"><%- __('Verify OTP') %></button>
+          </form>
+
+          <div class="text-center mt-3">
+            <p><%- __("Didn't receive the OTP?") %>
+              <a href="/auth/resend-otp" id="resendLink" class="text-primary"><%- __('Resend OTP') %></a>
+            </p>
+            <p id="timer" class="text-muted"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputs = document.querySelectorAll('.otp-digit');
+    const otpValueInput = document.getElementById('otpValue');
+
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', (e) => {
+        if (e.target.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+        updateOTPValue();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    function updateOTPValue() {
+      const otp = Array.from(inputs).map(input => input.value).join('');
+      otpValueInput.value = otp;
+    }
+
+    let timeLeft = 30;
+    const timerElement = document.getElementById('timer');
+    const resendLink = document.getElementById('resendLink');
+
+    function startTimer() {
+      resendLink.style.pointerEvents = 'none';
+      resendLink.style.color = '#ccc';
+      timerElement.textContent = `Resend available in ${timeLeft} seconds`;
+
+      const countdown = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = `Resend available in ${timeLeft} seconds`;
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          resendLink.style.pointerEvents = 'auto';
+          resendLink.style.color = '#007bff';
+          timerElement.textContent = '';
+        }
+      }, 1000);
+    }
+
+    startTimer();
+  });
+  </script>
+

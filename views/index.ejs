@@ -1,0 +1,134 @@
+<% layout("layouts/boilerplate") %>
+
+      <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4 main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+          <h1 class="display-4 text-primary"><%= __("welcome", "Welcome to CampusConnect!") %></h1>
+          <p class="lead text-muted"><%= __("tagline", "Your one-stop platform for university management.") %></p>
+        </section>
+
+        <!-- Notification -->
+        <div class="alert alert-info alert-dismissible fade show mb-4" role="alert" id="notification">
+          <i class="fas fa-bell me-2"></i>
+          <span id="notification-text"><%= __("notification", "New feedback forms are available!") %></span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Carousel -->
+        <div id="carouselExample" class="carousel slide mb-4" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="/images/campus1.jpg" class="d-block w-100" alt="Campus Slide 1">
+              <div class="carousel-caption d-block bg-dark bg-opacity-75 p-3 rounded">
+                <h5><%= __("welcome", "Welcome to CampusConnect!") %></h5>
+                <p><%= __("streamline", "Streamline your university experience.") %></p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="/images/campus2.jpg" class="d-block w-100" alt="Campus Slide 2">
+              <div class="carousel-caption d-block bg-dark bg-opacity-75 p-3 rounded">
+                <h5><%= __("dashboards", "Interactive Dashboards") %></h5>
+                <p><%= __("real_time", "Real-time updates for all users.") %></p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="/images/campus3.jpg" class="d-block w-100" alt="Campus Slide 3">
+              <div class="carousel-caption d-block bg-dark bg-opacity-75 p-3 rounded">
+                <h5><%= __("secure", "Secure Access") %></h5>
+                <p><%= __("login_easy", "Login with ease.") %></p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <!-- Department Cards -->
+        <div class="row text-center mb-5">
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 card-hover">
+              <a href="/teacher/dashboard" class="text-decoration-none text-dark">
+                <div class="card-body">
+                  <i class="fas fa-chalkboard-teacher fa-3x text-primary mb-3"></i>
+                  <h4><%= __("teachers", "For Teachers") %></h4>
+                  <p class="card-text"><%= __("teacher_desc", "Manage classes and feedback.") %></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 card-hover">
+              <a href="/student/dashboard" class="text-decoration-none text-dark">
+                <div class="card-body">
+                  <i class="fas fa-user-graduate fa-3x text-success mb-3"></i>
+                  <h4><%= __("students", "For Students") %></h4>
+                  <p class="card-text"><%= __("student_desc", "Submit feedback easily.") %></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 card-hover">
+              <a href="/admin/dashboard" class="text-decoration-none text-dark">
+                <div class="card-body">
+                  <i class="fas fa-shield-alt fa-3x text-danger mb-3"></i>
+                  <h4><%= __("admins", "For Admins") %></h4>
+                  <p class="card-text"><%= __("admin_desc", "Oversee operations.") %></p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features Section -->
+        <section class="feature-section">
+          <h2 class="text-center text-primary mb-4"><%= __("features", "Why Choose CampusConnect?") %></h2>
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="card feature-card shadow-sm border-0">
+                <div class="card-body text-center">
+                  <i class="fas fa-users fa-3x text-info mb-3"></i>
+                  <h5 class="card-title"><%= __("community", "Community Support") %></h5>
+                  <p class="card-text"><%= __("community_desc", "Connect with students and teachers seamlessly.") %></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card feature-card shadow-sm border-0">
+                <div class="card-body text-center">
+                  <i class="fas fa-lock fa-3x text-warning mb-3"></i>
+                  <h5 class="card-title"><%= __("security", "Enhanced Security") %></h5>
+                  <p class="card-text"><%= __("security_desc", "Your data is safe with us.") %></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card feature-card shadow-sm border-0">
+                <div class="card-body text-center">
+                  <i class="fas fa-mobile-alt fa-3x text-success mb-3"></i>
+                  <h5 class="card-title"><%= __("responsive", "Fully Responsive") %></h5>
+                  <p class="card-text"><%= __("responsive_desc", "Access from any device, anywhere.") %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Get Started Button -->
+        <% if (!user) { %>
+          <div class="text-center mt-5 mb-5">
+            <a href="/auth/login" class="btn btn-lg btn-primary btn-animated" id="get-started-btn">
+              <i class="fas fa-sign-in-alt me-2"></i><%= __("get_started", "Get Started") %>
+            </a>
+          </div>
+        <% } %>
+      </main>
+    </div>
+  </div>
+

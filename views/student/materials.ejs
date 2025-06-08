@@ -1,0 +1,40 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container mt-5">
+  <h1 class="mb-4">Study Materials</h1>
+
+  <% if (materials.length === 0) { %>
+    <p>No materials available.</p>
+  <% } else { %>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Access</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% materials.forEach(material => { %>
+          <tr>
+            <td><%= material.title %></td>
+            <td><%= material.description || material.content || '-' %></td>
+            <td><%= material.type %></td>
+            <td>
+              <% if (material.type === 'pdf' || material.type === 'link') { %>
+                <a href="<%= material.url %>" class="btn btn-sm btn-primary" target="_blank">View</a>
+              <% } else { %>
+                <span class="text-muted">Text Content</span>
+              <% } %>
+            </td>
+            <td><%= material.createdAt.toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <a href="/student/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</main>

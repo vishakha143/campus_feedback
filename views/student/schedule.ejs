@@ -1,0 +1,36 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container mt-5">
+  <h1 class="mb-4">Class Schedule</h1>
+
+  <% if (schedules.length === 0) { %>
+    <p>No schedules available.</p>
+  <% } else { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Teacher</th>
+          <th>Subject</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Room</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% schedules.forEach(schedule => { %>
+          <tr>
+            <td><%= schedule.teacher ? schedule.teacher.username : 'N/A' %></td>
+            <td><%= schedule.subject %></td>
+            <td><%= schedule.date.toLocaleDateString() %></td>
+            <td><%= schedule.time %></td>
+            <td><%= schedule.room %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <div class="mt-4">
+    <a href="/student/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</main>

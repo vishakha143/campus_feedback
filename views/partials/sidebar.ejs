@@ -1,0 +1,186 @@
+<!-- views/partials/sidebar.ejs -->
+<% if (typeof showSidebar === 'undefined' || showSidebar) { %>
+  <div class="sidebar-container">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <h2>CampusConnect</h2>
+        <button class="sidebar-close" type="button" aria-label="Close sidebar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- User Profile Section -->
+      <% if (user) { %>
+        <div class="sidebar-profile text-center mb-4">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle fa-3x"></i>
+          </div>
+          <h5 class="mt-2 mb-1"><%= user.username %></h5>
+          <span class="badge bg-primary"><%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %></span>
+        </div>
+      <% } else { %>
+        <div class="sidebar-profile text-center mb-4">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle fa-3x"></i>
+          </div>
+          <h5 class="mt-2 mb-1">Guest</h5>
+          <span class="badge bg-secondary">Not Logged In</span>
+        </div>
+      <% } %>
+
+      <!-- Main Navigation -->
+      <nav class="sidebar-nav">
+        <h6 class="sidebar-section-title"><%= __("navigation") %></h6>
+        <ul>
+          <li>
+            <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">
+              <span class="icon"><i class="fas fa-home"></i></span>
+              <%= __("home") %>
+            </a>
+          </li>
+          <% if (user && user.role) { %>
+            <% if (user.role === 'teacher') { %>
+              <li>
+                <a href="/teacher/dashboard" class="<%= currentPath === '/teacher/dashboard' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-chalkboard-teacher"></i></span>
+                  <%= __("teacher_dashboard") %>
+                </a>
+              </li>
+              <li>
+                <a href="/teacher/student-progress" class="<%= currentPath === '/teacher/student-progress' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-chart-line"></i></span>
+                  Student Progress
+                </a>
+              </li>
+              <li>
+                <a href="/teacher/materials" class="<%= currentPath === '/teacher/materials' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-book"></i></span>
+                  Manage Materials
+                </a>
+              </li>
+              <li>
+                <a href="/teacher/schedule" class="<%= currentPath === '/teacher/schedule' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                  Class Schedule
+                </a>
+              </li>
+            <% } else if (user.role === 'student') { %>
+              <li>
+                <a href="/student/dashboard" class="<%= currentPath === '/student/dashboard' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-user-graduate"></i></span>
+                  <%= __("student_dashboard") %>
+                </a>
+              </li>
+              <li>
+                <a href="/student/exam-history" class="<%= currentPath === '/student/exam-history' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-history"></i></span>
+                  Examination History
+                </a>
+              </li>
+              <li>
+                <a href="/student/feedback-history" class="<%= currentPath === '/student/feedback-history' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-comment"></i></span>
+                  Feedback History
+                </a>
+              </li>
+              <li>
+                <a href="/student/materials" class="<%= currentPath === '/student/materials' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-book"></i></span>
+                  Study Materials
+                </a>
+              </li>
+              <li>
+                <a href="/student/feedback/examination" class="<%= currentPath === '/student/feedback/examination' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-star"></i></span>
+                  Submit Feedback
+                </a>
+              </li>
+              <li>
+                <a href="/student/schedule" class="<%= currentPath === '/student/schedule' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                  Class Schedule
+                </a>
+              </li>
+            <% } else if (user.role === 'admin') { %>
+              <li>
+                <a href="/admin/dashboard" class="<%= currentPath === '/admin/dashboard' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-user-shield"></i></span>
+                  <%= __("admin_dashboard") %>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/users" class="<%= currentPath === '/admin/users' ? 'active' : '' %>">
+                  <span class="icon"><i class="fas fa-users"></i></span>
+                  User Management
+                </a>
+              </li>
+            <% } %>
+          <% } %>
+        </ul>
+      </nav>
+
+      <!-- Quick Links -->
+      <div class="sidebar-section">
+        <h6 class="sidebar-section-title"><%= __("quick_links") %></h6>
+        <ul>
+          <li>
+            <a href="/search" class="<%= currentPath === '/search' ? 'active' : '' %>">
+              <span class="icon"><i class="fas fa-search"></i></span>
+              <%= __("search") %>
+            </a>
+          </li>
+          <% if (user && user.role) { %>
+            <li>
+              <a href="<%= user.role === 'student' ? '/student/dashboard' : user.role === 'teacher' ? '/teacher/dashboard' : '/admin/dashboard' %>" class="<%= currentPath === (user.role === 'student' ? '/student/dashboard' : user.role === 'teacher' ? '/teacher/dashboard' : '/admin/dashboard') ? 'active' : '' %>">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
+                <%= __("dashboard") %>
+              </a>
+            </li>
+          <% } else { %>
+            <li>
+              <a href="/dashboard" class="<%= currentPath === '/dashboard' ? 'active' : '' %>">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
+                <%= __("dashboard") %>
+              </a>
+            </li>
+          <% } %>
+          <% if (user) { %>
+            <li>
+              <a href="/auth/logout" class="<%= currentPath === '/auth/logout' ? 'active' : '' %>">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                <%= __("logout") %>
+              </a>
+            </li>
+          <% } else { %>
+            <li>
+              <a href="/auth/login" class="<%= currentPath === '/auth/login' ? 'active' : '' %>">
+                <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                <%= __("login") %>
+              </a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+
+      <!-- Notifications (Static Placeholder) -->
+      <div class="sidebar-section">
+        <h6 class="sidebar-section-title"><%= __("notifications") %></h6>
+        <ul class="notifications-list">
+          <li class="notification-item">
+            <span class="icon text-success"><i class="fas fa-bell"></i></span>
+            New feedback received
+            <small class="text-muted d-block">2 hours ago</small>
+          </li>
+          <li class="notification-item">
+            <span class="icon text-warning"><i class="fas fa-exclamation-circle"></i></span>
+            Assignment due tomorrow
+            <small class="text-muted d-block">1 day ago</small>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+<% } %>

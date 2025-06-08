@@ -1,0 +1,138 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  .star-rating {
+    display: flex;
+    flex-direction: row-reverse; /* Right to left for intuitive clicking */
+    justify-content: flex-end;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .star-rating i {
+    color: #ddd; /* Default gray color for unselected stars */
+    margin-left: 5px;
+    transition: color 0.3s ease;
+  }
+
+  .star-rating i.selected,
+  .star-rating i:hover,
+  .star-rating i:hover ~ i {
+    color: #f5c518; /* Gold color for selected/hovered stars */
+  }
+
+  .invalid-feedback {
+    display: none;
+  }
+
+  .was-validated .star-rating:invalid ~ .invalid-feedback {
+    display: block;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="col-md-9 main-content p-4">
+    <form action="/student/feedback/examination" method="POST" class="needs-validation" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken || '' %>">
+      <div class="mb-3">
+        <label for="teacherId" class="form-label"><i class="fas fa-chalkboard-teacher me-2"></i><%= __?.teacher || 'Teacher' %></label>
+        <select class="form-control" id="teacherId" name="teacherId" required>
+          <option value=""><%= __?.select_teacher || 'Select a Teacher' %></option>
+          <% if (typeof teachers !== 'undefined' && teachers && teachers.length > 0) { %>
+            <% teachers.forEach(teacher => { %>
+              <option value="<%= teacher._id %>"><%= teacher.username %></option>
+            <% }); %>
+          <% } else { %>
+            <option value="" disabled>No teachers available</option>
+          <% } %>
+        </select>
+        <div class="invalid-feedback">Please select a teacher.</div>
+      </div>
+      <div class="mb-3">
+        <label for="teachingStyle" class="form-label"><i class="fas fa-chalkboard me-2"></i><%= __?.teaching_style || 'Teaching Style' %></label>
+        <div class="star-rating" data-field="teachingStyle">
+          <i class="fas fa-star" data-value="5"></i>
+          <i class="fas fa-star" data-value="4"></i>
+          <i class="fas fa-star" data-value="3"></i>
+          <i class="fas fa-star" data-value="2"></i>
+          <i class="fas fa-star" data-value="1"></i>
+        </div>
+        <input type="hidden" name="teachingStyle" id="teachingStyle" required>
+        <div class="invalid-feedback">Please select a rating.</div>
+      </div>
+      <div class="mb-3">
+        <label for="contentDelivery" class="form-label"><i class="fas fa-book-open me-2"></i><%= __?.content_delivery || 'Content Delivery' %></label>
+        <div class="star-rating" data-field="contentDelivery">
+          <i class="fas fa-star" data-value="5"></i>
+          <i class="fas fa-star" data-value="4"></i>
+          <i class="fas fa-star" data-value="3"></i>
+          <i class="fas fa-star" data-value="2"></i>
+          <i class="fas fa-star" data-value="1"></i>
+        </div>
+        <input type="hidden" name="contentDelivery" id="contentDelivery" required>
+        <div class="invalid-feedback">Please select a rating.</div>
+      </div>
+      <div class="mb-3">
+        <label for="engagement" class="form-label"><i class="fas fa-users me-2"></i><%= __?.engagement || 'Engagement' %></label>
+        <div class="star-rating" data-field="engagement">
+          <i class="fas fa-star" data-value="5"></i>
+          <i class="fas fa-star" data-value="4"></i>
+          <i class="fas fa-star" data-value="3"></i>
+          <i class="fas fa-star" data-value="2"></i>
+          <i class="fas fa-star" data-value="1"></i>
+        </div>
+        <input type="hidden" name="engagement" id="engagement" required>
+        <div class="invalid-feedback">Please select a rating.</div>
+      </div>
+      <div class="mb-3">
+        <label for="comments" class="form-label"><i class="fas fa-comment me-2"></i><%= __?.comments || 'Comments' %></label>
+        <textarea class="form-control" id="comments" name="comments" rows="3" placeholder="Enter your comments..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit Feedback</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.star-rating').forEach(rating => {
+    const field = rating.getAttribute('data-field');
+    const input = document.getElementById(field);
+    const stars = rating.querySelectorAll('i');
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        const value = star.getAttribute('data-value');
+        input.value = value;
+
+        // Update visual feedback
+        stars.forEach(s => {
+          if (s.getAttribute('data-value') <= value) {
+            s.classList.add('selected');
+          } else {
+            s.classList.remove('selected');
+          }
+        });
+
+        // Trigger validation
+        input.dispatchEvent(new Event('input'));
+      });
+
+      // Hover effect (handled by CSS)
+    });
+  });
+
+  // Bootstrap form validation
+  (function () {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.prototype.slice.call(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>

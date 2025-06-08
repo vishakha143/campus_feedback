@@ -1,0 +1,39 @@
+{
+  "name": "campus-connect",
+  "version": "1.0.0",
+  "description": "A platform for university feedback and exam form management",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "chart.js": "^4.4.9",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.7",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "i18n": "^0.15.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.2",
+    "nodemailer": "^7.0.3",
+    "nodemon": "^3.1.10",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^8.0.0",
+    "socket.io": "^4.8.1"
+  }
+}

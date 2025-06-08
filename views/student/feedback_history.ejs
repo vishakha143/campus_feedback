@@ -1,0 +1,119 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container mt-5">
+  <h1 class="mb-4">Feedback History</h1>
+
+  <!-- Feedback Table -->
+  <% if (feedbacks.length === 0) { %>
+    <p>No feedback submitted yet.</p>
+  <% } else { %>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Teacher</th>
+          <th>Teacher Feedback</th>
+          <th>Examination Feedback</th>
+          <th>Rating</th>
+          <th>Submitted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% feedbacks.forEach(feedback => { %>
+          <tr>
+            <td><%= feedback.teacher.username %> (<%= feedback.teacher.email %>)</td>
+            <td><%= feedback.type === 'general' ? feedback.feedbackText : '-' %></td>
+            <td><%= feedback.type === 'examination' ? feedback.feedbackText : '-' %></td>
+            <td><%= feedback.rating %>/5</td>
+            <td><%= feedback.submittedAt.toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <!-- Charts Section -->
+  <div class="row mt-5">
+    <!-- Teacher Performance Chart -->
+    <div class="col-md-6">
+      <h3>Teacher Performance</h3>
+      <canvas id="teacherChart" height="200"></canvas>
+    </div>
+    <!-- Examination Feedback Chart -->
+    <div class="col-md-6">
+      <h3>Examination Feedback Over Time</h3>
+      <canvas id="examChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <a href="/student/dashboard" class="btn btn-secondary mt-4">Back to Dashboard</a>
+</main>
+
+<script>
+  // Teacher Performance Chart
+  const teacherCtx = document.getElementById('teacherChart').getContext('2d');
+  new Chart(teacherCtx, {
+    type: 'bar',
+    data: {
+      labels: <%- JSON.stringify(teacherChartData.labels) %>,
+      datasets: [{
+        label: 'Average Rating',
+        data: <%- JSON.stringify(teacherChartData.data) %>,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 5,
+          title: {
+            display: true,
+            text: 'Rating (1-5)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Teacher'
+          }
+        }
+      }
+    }
+  });
+
+  // Examination Feedback Chart
+  const examCtx = document.getElementById('examChart').getContext('2d');
+  new Chart(examCtx, {
+    type: 'bar',
+    data: {
+      labels: <%- JSON.stringify(examChartData.labels) %>,
+      datasets: [{
+        label: 'Average Rating',
+        data: <%- JSON.stringify(examChartData.data) %>,
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 5,
+          title: {
+            display: true,
+            text: 'Rating (1-5)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Date'
+          }
+        }
+      }
+    }
+  });
+</script>

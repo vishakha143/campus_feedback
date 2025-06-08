@@ -1,0 +1,29 @@
+<% layout('layouts/boilerplate') %>
+ 
+
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+      <div class="card shadow-lg" style="border-radius: 15px;">
+        <div class="card-body p-5">
+          <h2 class="text-center mb-4"><%- __('Login') %></h2>
+
+          <form action="/auth/login" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="mb-3">
+              <label for="email" class="form-label"><%- __('Email') %></label>
+              <input type="text" class="form-control" id="email" name="email" value="<%= formData ? formData.email : '' %>" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label"><%- __('Password') %></label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-animated"><%- __('Login') %></button>
+          </form>
+
+          <div class="text-center mt-3">
+            <p><%- __("Don't have an account?") %> <a href="/auth/register" class="text-primary"><%- __('Register') %></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

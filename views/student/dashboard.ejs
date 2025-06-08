@@ -1,0 +1,70 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container mt-5">
+  <!-- Welcome Section -->
+  <div class="jumbotron text-center bg-primary text-white rounded">
+    <h1 class="display-4">Welcome, <%= user.username %>!</h1>
+    <p class="lead">Student Dashboard | Role: <%= user.role %></p>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="row mt-5">
+    <!-- Examination Form Card -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm border-primary text-center">
+        <div class="card-body">
+          <i class="bi bi-file-earmark-text display-4 text-primary"></i>
+          <h5 class="card-title mt-3">Examination Form</h5>
+          <p class="card-text">Submit your examination details.</p>
+          <a href="/student/examination-form" class="btn btn-primary">Go to Form</a>
+        </div>
+      </div>
+    </div>
+       <!-- Exam History Card -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm border-success text-center">
+        <div class="card-body">
+          <i class="bi bi-clock-history display-4 text-success"></i>
+          <h5 class="card-title mt-3">Exam History</h5>
+          <p class="card-text">View your submitted exam feedback.</p>
+          <a href="/student/exam-history" class="btn btn-success">View History</a>
+        </div>
+      </div>
+    </div>
+    <!-- Feedback History Card -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm border-success text-center">
+        <div class="card-body">
+          <i class="bi bi-clock-history display-4 text-success"></i>
+          <h5 class="card-title mt-3">Feedback History</h5>
+          <p class="card-text">View your submitted feedback.</p>
+          <a href="/student/feedback-history" class="btn btn-success">View History</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Materials Card -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm border-info text-center">
+        <div class="card-body">
+          <i class="bi bi-book display-4 text-info"></i>
+          <h5 class="card-title mt-3">Materials</h5>
+          <p class="card-text">Access study materials.</p>
+          <a href="/student/materials" class="btn btn-info">View Materials</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Feedback Card -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm border-warning text-center">
+        <div class="card-body">
+          <i class="bi bi-chat-left-text display-4 text-warning"></i>
+          <h5 class="card-title mt-3">Submit Feedback</h5>
+          <p class="card-text">Provide feedback on teachers or exams.</p>
+          <a href="/student/feedback/examination" class="btn btn-warning">Submit Feedback</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

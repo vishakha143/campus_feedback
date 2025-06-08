@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %>
+    <div class="row">
+      <div class="col-md-9 main-content p-4">
+        <form action="/student/examination-form" method="POST" class="needs-validation" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken || '' %>">
+          <div class="mb-3">
+            <label for="examName" class="form-label"><i class="fas fa-book me-2"></i><%= __?.subject || 'Subject' %></label>
+            <input type="text" class="form-control" id="examName" name="examName" required>
+            <div class="invalid-feedback">Please enter a subject.</div>
+          </div>
+          <div class="mb-3">
+            <label for="examType" class="form-label"><i class="fas fa-clipboard-check me-2"></i><%= __?.exam_type || 'Exam Type' %></label>
+            <select class="form-control" id="examType" name="examType" required>
+              <option value=""><%= __?.select_exam_type || 'Select Exam Type' %></option>
+              <option value="midterm">Internal</option>
+              <option value="final">External</option>
+              <option value="practical">Practical</option>
+            </select>
+            <div class="invalid-feedback">Please select an exam type.</div>
+          </div>
+          <div class="mb-3">
+            <label for="examDate" class="form-label"><i class="fas fa-calendar-alt me-2"></i>Examination Date</label>
+            <input type="date" name="examDate" id="examDate" class="form-control" required>
+            <div class="invalid-feedback">Please select an exam date.</div>
+          </div>
+          <div class="mb-3">
+            <label for="score" class="form-label"><i class="fas fa-tachometer-alt me-2"></i>Score</label>
+            <input type="number" name="score" id="score" class="form-control" min="0" max="100" required>
+            <div class="invalid-feedback">Please enter a score between 0 and 100.</div>
+          </div>
+          <div class="mb-3">
+            <label for="difficulty" class="form-label"><i class="fas fa-balance-scale me-2"></i>Difficulty (1 = Very Easy, 100 = Very Hard)</label>
+            <div class="d-flex align-items-center">
+              <input type="range" name="difficulty" id="difficulty" class="form-control-range me-3" min="1" max="100" value="50" required>
+              <span id="difficulty-label" class="difficulty-label">Moderate</span>
+            </div>
+            <div class="invalid-feedback">Please select a difficulty level.</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Examination</button>
+        </form>
+      </div>
+    </div>
+  </div>
+ 

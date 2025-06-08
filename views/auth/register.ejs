@@ -1,0 +1,41 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="col-md-6">
+    <div class="card shadow-lg" style="border-radius: 15px;">
+      <div class="card-body p-5">
+        <h2 class="text-center mb-4"><%- __('Register') %></h2>
+
+        <form action="/auth/register" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="form-group mb-3">
+            <label for="username"><%- __('Username') %></label>
+            <input type="text" id="username" name="username" class="form-control" value="<%= formData ? formData.username : '' %>" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="email"><%- __('Email') %></label>
+            <input type="email" id="email" name="email" class="form-control" value="<%= formData ? formData.email : '' %>" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="password"><%- __('Password') %></label>
+            <input type="password" id="password" name="password" class="form-control" value="<%= formData ? formData.password : '' %>" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="password2"><%- __('Confirm Password') %></label>
+            <input type="password" id="password2" name="password2" class="form-control" value="<%= formData ? formData.password2 : '' %>" required>
+          </div>
+          <div class="form-group mb-4">
+            <label for="role"><%- __('Role') %></label>
+            <select id="role" name="role" class="form-control" required>
+              <option value="student" <%= formData && formData.role === 'student' ? 'selected' : '' %>><%- __('Student') %></option>
+              <option value="teacher" <%= formData && formData.role === 'teacher' ? 'selected' : '' %>><%- __('Teacher') %></option>
+              <option value="admin" <%= formData && formData.role === 'admin' ? 'selected' : '' %>><%- __('Admin') %></option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-animated"><%- __('Register') %></button>
+        </form>
+        <p class="text-center mt-3"><%- __('Already have an account?') %> <a href="/auth/login"><%- __('Login') %></a></p>
+      </div>
+    </div>
+  </div>
+</div>

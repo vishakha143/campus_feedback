@@ -12,6 +12,7 @@ const csrf = require('csurf');
 const LocalStrategy = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser');
 const ejsMate = require("ejs-mate");
+const MongoStore = require('connect-mongo');
 
 const app = express();
 const http = require('http');
@@ -37,7 +38,27 @@ try {
 }
 
 // Connect to MongoDB
-connectDB().catch(err => console.error('MongoDB connection error:', err));
+//connectDB().catch(err => console.error('MongoDB connection error:', err));
+const dbUrl = process.env.ATLASDB_URL || 'mongodb://localhost:27017/campus_feedback';
+
+async function main() {
+  try {
+    await mongoose.connect(dbUrl);
+    console.log('MongoDB connected to:', dbUrl.includes('localhost') ? 'Local MongoDB' : 'MongoDB Atlas');
+  } catch (err) {
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1);
+  }
+}
+
+main().then(() => {
+  app.use(session({
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: dbUrl }),
+    cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 24 * 60 * 60 * 1000 }
+  }));
 
 // EJS
 app.engine("ejs", ejsMate);
@@ -56,15 +77,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Express Session
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'default-secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { 
-    secure: process.env.NODE_ENV === 'production', // Set to true in production with HTTPS
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}));
+// app.use(session({
+//   secret: process.env.SESSION_SECRET || 'default-secret',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { 
+//     secure: process.env.NODE_ENV === 'production', // Set to true in production with HTTPS
+//     maxAge: 24 * 60 * 60 * 1000 // 24 hours
+//   }
+// }));
 
 // Flash Middleware
 app.use(flash());
@@ -330,9 +351,12 @@ io.on('connection', (socket) => {
   });
 });
 
-app.set('io', io); // Make io available in routes
-server.listen(3000, () => {
-  console.log('Server running on port 3000');
+// app.set('io', io); // Make io available in routes
+// server.listen(3000, () => {
+//   console.log('Server running on port 3000');
+// });
+const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`Server running on port ${port}`));
+}).catch(err => {
+  console.error('Startup error:', err.message);
 });
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`)).on('error', (err) => console.error('Server error:', err));
